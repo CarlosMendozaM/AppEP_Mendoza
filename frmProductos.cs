@@ -141,14 +141,14 @@ namespace EP_MendozaMalpica
                                 int resultado = comando.ExecuteNonQuery();
                                 if (resultado > 0)
                                 {
-                                    MessageBox.Show("El producto esta registrado", "Sistemas",
+                                    MessageBox.Show("El producto se ha modificado", "Sistemas",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     cargarDatos();
                                 }
 
                                 else
                                 {
-                                    MessageBox.Show("El producto no ha sido registrado", "Sistemas",
+                                    MessageBox.Show("El producto no ha sido modificado", "Sistemas",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
