@@ -94,38 +94,43 @@ namespace EP_MendozaMalpica
 
         private void tsbEdit_Click(object sender, EventArgs e)
         {
-            var frm = new frmProductoEdit();
+            var filaActual = dgvListado.CurrentRow;
+            if (filaActual != null)
+            { 
+                var frm = new frmProductoEdit();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text;
-                var marca = ((TextBox)frm.Controls["txtMarca"]).Text;
-                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text;
+                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[0].Value.ToString();
+                var marca = ((TextBox)frm.Controls["txtMarca"]).Text = dgvListado.SelectedCells[1].Value.ToString();
+                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).Text = dgvListado.SelectedCells[2].Value.ToString();
+                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text = dgvListado.SelectedCells[3].Value.ToString();
                 var stock = ((TextBox)frm.Controls["txtStock"]).Text;
-                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).ToString();
-                {
-                    using (var conexion = new SqlConnection(cadenaConexion))
                     {
-                        conexion.Open();
-                        var sql = "UPDATE Producto SET  Nombre='Mouse' WHERE Nombre = @nombre";
-                        using (var comando = new SqlCommand(sql, conexion))
+                        using (var conexion = new SqlConnection(cadenaConexion))
                         {
-                            comando.Parameters.AddWithValue("@nombre", nombre);
-                            comando.Parameters.AddWithValue("@marca", marca);
-                            comando.Parameters.AddWithValue("@precio", precio);
-                            comando.Parameters.AddWithValue("@stock", stock);
-                            comando.Parameters.AddWithValue("@categoria", categoria);
-                            int resultado = comando.ExecuteNonQuery();
-                            if (resultado > 0)
+                            conexion.Open();
+                            var sql = "UPDATE Producto SET  Nombre = @nombre, Marca = @marca, Precio = @precio," +
+                                "Stock = @stock, IdCategoria = @categoria WHERE IdCategoria = @categoria ";
+                            using (var comando = new SqlCommand(sql, conexion))
                             {
-                                MessageBox.Show("El producto esta registrado", "Sistemas",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                cargarDatos();
-                            }
+                                comando.Parameters.AddWithValue("@nombre", nombre);
+                                comando.Parameters.AddWithValue("@marca", marca);
+                                comando.Parameters.AddWithValue("@precio", precio);
+                                comando.Parameters.AddWithValue("@stock", stock);
+                                comando.Parameters.AddWithValue("@categoria", categoria);
+                                int resultado = comando.ExecuteNonQuery();
+                                if (resultado > 0)
+                                {
+                                    MessageBox.Show("El producto esta registrado", "Sistemas",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    cargarDatos();
+                                }
 
-                            else
-                            {
-                                MessageBox.Show("El producto no ha sido registrado", "Sistemas",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                {
+                                    MessageBox.Show("El producto no ha sido registrado", "Sistemas",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                         }
                     }
@@ -139,10 +144,10 @@ namespace EP_MendozaMalpica
                 {
                     using (var conexion = new SqlConnection(cadenaConexion))
                     {
-                    var sql = "DELETE FROM Producto WHERE Nombre ='Mouse'";
-                    var frm = new frmProductoEdit();
-                    var nombre = ((TextBox)frm.Controls["txtNombre"]).Text;
                     conexion.Open();
+                    var sql = "DELETE FROM Producto WHERE Nombre = @nombre";
+                    var frm = new frmProductoEdit();
+                    var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[3].Value.ToString();
                         using (var comando = new SqlCommand(sql, conexion))
                         {
                         comando.Parameters.AddWithValue("@nombre", nombre);
