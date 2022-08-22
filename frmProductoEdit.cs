@@ -54,7 +54,23 @@ namespace EP_MendozaMalpica
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-                    this.DialogResult = DialogResult.OK;
+            double preciomaximo = double.Parse(txtPrecio.Text);
+            if (preciomaximo>2500)
+            {
+                MessageBox.Show("El precio sobrepasa los limites", "Sistema",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int stockminimo = int.Parse(txtStock.Text);
+            if (stockminimo < 6)
+            {
+                MessageBox.Show("El stock no es suficiente", "Sistema",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
         }        
     } 
 }

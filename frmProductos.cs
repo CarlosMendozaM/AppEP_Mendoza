@@ -75,7 +75,7 @@ namespace EP_MendozaMalpica
             using (var conexion = new SqlConnection(cadenaConexion))
             {
                 conexion.Open();
-                var sql = "SELECT A.Nombre, Marca, B.Nombre AS Categoria, Precio FROM Producto A INNER JOIN Categoria B ON A.IdCategoria = B.IdCategoria";
+                var sql = "SELECT IdProducto, A.Nombre, Marca, B.Nombre AS Categoria, Precio FROM Producto A INNER JOIN Categoria B ON A.IdCategoria = B.IdCategoria";
                 using (var comando = new SqlCommand(sql, conexion))
                 {
                     using (var lector = comando.ExecuteReader())
@@ -84,7 +84,7 @@ namespace EP_MendozaMalpica
                         {
                             while (lector.Read())
                             {
-                                dgvListado.Rows.Add(lector[0], lector[1], lector[2], lector[3]);
+                                dgvListado.Rows.Add(lector[0], lector[1], lector[2], lector[3], lector[4]);
                             }
                         }
                     }
@@ -92,27 +92,47 @@ namespace EP_MendozaMalpica
             }
         }
 
+        private int getId()
+        {
+            try
+            {
+                //¿Que queremos procesar?
+                DataGridViewRow filaActual = dgvListado.CurrentRow;
+                if (filaActual == null)
+                {
+                    return 0;
+                }
+                return int.Parse(dgvListado.Rows[filaActual.Index].Cells[0].Value.ToString());
+            }
+            catch (Exception ex)
+            {
+                //¿Que hacer en caso de error?
+                return 0;
+            }
+        }
+
         private void tsbEdit_Click(object sender, EventArgs e)
         {
-            var filaActual = dgvListado.CurrentRow;
-            if (filaActual != null)
+            int id = getId();
+            if (id > 0)
             { 
                 var frm = new frmProductoEdit();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[0].Value.ToString();
-                var marca = ((TextBox)frm.Controls["txtMarca"]).Text = dgvListado.SelectedCells[1].Value.ToString();
-                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).Text = dgvListado.SelectedCells[2].Value.ToString();
-                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text = dgvListado.SelectedCells[3].Value.ToString();
+                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[1].Value.ToString();
+                var marca = ((TextBox)frm.Controls["txtMarca"]).Text = dgvListado.SelectedCells[2].Value.ToString();
+                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).Text = dgvListado.SelectedCells[3].Value.ToString();
+                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text = dgvListado.SelectedCells[4].Value.ToString();
                 var stock = ((TextBox)frm.Controls["txtStock"]).Text;
                     {
                         using (var conexion = new SqlConnection(cadenaConexion))
                         {
                             conexion.Open();
                             var sql = "UPDATE Producto SET  Nombre = @nombre, Marca = @marca, Precio = @precio," +
-                                "Stock = @stock, IdCategoria = @categoria WHERE IdCategoria = @categoria ";
+                                "Stock = @stock, IdCategoria = @categoria WHERE IdProducto = @idProducto ";
                             using (var comando = new SqlCommand(sql, conexion))
                             {
+                                comando.Parameters.AddWithValue("@idProducto", id);
                                 comando.Parameters.AddWithValue("@nombre", nombre);
                                 comando.Parameters.AddWithValue("@marca", marca);
                                 comando.Parameters.AddWithValue("@precio", precio);
@@ -139,18 +159,16 @@ namespace EP_MendozaMalpica
         }
         private void tsbDelete_Click(object sender, EventArgs e)
         {
-                var filaActual = dgvListado.CurrentRow;
-                if (filaActual != null)
-                {
+            int id = getId();
+            if (id > 0)
+            {
                     using (var conexion = new SqlConnection(cadenaConexion))
                     {
                     conexion.Open();
-                    var sql = "DELETE FROM Producto WHERE Nombre = @nombre";
-                    var frm = new frmProductoEdit();
-                    var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[3].Value.ToString();
-                        using (var comando = new SqlCommand(sql, conexion))
+                    var sql = "DELETE FROM Producto WHERE IdProducto = @idProducto";
+                    using (var comando = new SqlCommand(sql, conexion))
                         {
-                        comando.Parameters.AddWithValue("@nombre", nombre);
+                        comando.Parameters.AddWithValue("@idProducto", id);
                         int resultado = comando.ExecuteNonQuery();
                         if (resultado > 0)
                             {

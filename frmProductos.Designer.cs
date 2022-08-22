@@ -36,6 +36,7 @@
             this.tsbEdit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbDelete = new System.Windows.Forms.ToolStripButton();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,6 +53,7 @@
             this.dgvListado.AllowUserToResizeRows = false;
             this.dgvListado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListado.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colId,
             this.colNombre,
             this.colMarca,
             this.colCategoria,
@@ -61,7 +63,7 @@
             this.dgvListado.ReadOnly = true;
             this.dgvListado.RowHeadersVisible = false;
             this.dgvListado.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvListado.Size = new System.Drawing.Size(420, 282);
+            this.dgvListado.Size = new System.Drawing.Size(499, 282);
             this.dgvListado.TabIndex = 0;
             // 
             // toolStrip1
@@ -74,7 +76,7 @@
             this.tsbDelete});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(449, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(523, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -115,6 +117,12 @@
             this.tsbDelete.Text = "Eliminar";
             this.tsbDelete.Click += new System.EventHandler(this.tsbDelete_Click);
             // 
+            // colId
+            // 
+            this.colId.HeaderText = "ID";
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            // 
             // colNombre
             // 
             this.colNombre.HeaderText = "Nombre";
@@ -143,7 +151,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 322);
+            this.ClientSize = new System.Drawing.Size(523, 322);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dgvListado);
             this.Name = "frmProductos";
@@ -167,6 +175,7 @@
         private System.Windows.Forms.ToolStripButton tsbEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsbDelete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMarca;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
