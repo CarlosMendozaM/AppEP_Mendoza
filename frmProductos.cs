@@ -13,12 +13,10 @@ namespace EP_MendozaMalpica
 {
     public partial class frmProductos : Form
     {
-        DataTable dtProducto;
         string cadenaConexion = "Server=localhost; DataBase=Parcial; Integrated security=true";
         public frmProductos()
         {
             InitializeComponent();
-            dtProducto = new DataTable();
         }
 
         private void tsbAdd_Click(object sender, EventArgs e)
@@ -92,7 +90,7 @@ namespace EP_MendozaMalpica
             }
         }
 
-        private int getId()
+        private int getid()
         {
             try
             {
@@ -113,7 +111,7 @@ namespace EP_MendozaMalpica
 
         private void tsbEdit_Click(object sender, EventArgs e)
         {
-            int id = getId();
+            int id = getid();
             if (id > 0)
             { 
                 var frm = new frmProductoEdit();
@@ -159,7 +157,7 @@ namespace EP_MendozaMalpica
         }
         private void tsbDelete_Click(object sender, EventArgs e)
         {
-            int id = getId();
+            int id = getid();
             if (id > 0)
             {
                     using (var conexion = new SqlConnection(cadenaConexion))
