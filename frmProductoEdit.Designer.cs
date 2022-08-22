@@ -149,6 +149,7 @@
             // 
             // txtidProducto
             // 
+            this.txtidProducto.Enabled = false;
             this.txtidProducto.Location = new System.Drawing.Point(75, 13);
             this.txtidProducto.Name = "txtidProducto";
             this.txtidProducto.Size = new System.Drawing.Size(301, 20);
