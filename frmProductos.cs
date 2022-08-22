@@ -119,10 +119,10 @@ namespace EP_MendozaMalpica
                 var frm = new frmProductoEdit();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text = dgvListado.SelectedCells[1].Value.ToString();
-                var marca = ((TextBox)frm.Controls["txtMarca"]).Text = dgvListado.SelectedCells[2].Value.ToString();
-                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).Text = dgvListado.SelectedCells[3].Value.ToString();
-                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text = dgvListado.SelectedCells[4].Value.ToString();
+                var nombre = ((TextBox)frm.Controls["txtNombre"]).Text;
+                var marca = ((TextBox)frm.Controls["txtMarca"]).Text;
+                var categoria = ((ComboBox)frm.Controls["cboCategoria"]).SelectedValue.ToString();
+                var precio = ((TextBox)frm.Controls["txtPrecio"]).Text;
                 var stock = ((TextBox)frm.Controls["txtStock"]).Text;
                     {
                         using (var conexion = new SqlConnection(cadenaConexion))
